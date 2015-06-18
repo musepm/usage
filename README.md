@@ -4,6 +4,10 @@ REST server to log API usage.  Supports HTTP
 (and HTTP2 at some point.)  musepm clients
 call this.
 
+# Requirements
+
+Postgres (logged data), redis (queue)
+
 # Usage
 
 POST /event/<appid> {JSON}
