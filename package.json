@@ -4,6 +4,7 @@
   "description": "REST server to log API usage.  Supports HTTP (and HTTP2 at some point.)  musepm clients call this.",
   "main": "queue.js",
   "scripts": {
+    "build": "babel --optional runtime --stage 1 -d lib src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

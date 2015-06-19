@@ -17,12 +17,13 @@ Body is JSON for event object:
 ```json
 {
   timestamp: 1234567890123,
-  ipaddr: '1.2.3.4',
+  intipaddr: '1.2.3.4',
   type: 'call',
   id: 'abcdef123456789',
   entity: 's3',
   action: 'upload',
   size: 234876,
+  descr: '',
   meta: ''
 }
 ```

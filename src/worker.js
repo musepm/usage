@@ -1,20 +1,21 @@
 
 var Queue = require('./queue'),
     EventLog = require('./eventlog');
+   
+var queue, data;
 
-let mod = {
-  init: {
-    mod.queue = new Queue('events');
-    mod.data = new EventLog();
-  },
-  next: {
-    mod.queue.process( (data, done) => {
-      await mod.data.addEvent(data);
-      done();
-    });
-  }
+init = () => {
+  queue = new Queue('events');
+  data = new EventLog();
 }
 
-mod.init();
-mod.next();
+next = () => {
+  queue.process( async (data, done) => {
+    await data.addEvent(data);
+    done();
+  });
+}
+
+init();
+next();
 
