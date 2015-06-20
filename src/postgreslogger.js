@@ -1,91 +1,81 @@
-var bunyan = require('bunyan');
-var extend = require('extend');
-var os     = require('os');
+var bunyan = require('bunyan'),
+    Event = null;
 
+ 
 class PostgresEventStream {
   constructor(options) {
     this.options = options || {};
 
     try {
-      this.sequelize = new Sequelize(options.conn'postgres://user:pass@example.com:5432/dbname');
+      this.sequelize = new Sequelize(options.conn);
     } catch (e) {
       throw new Error("Couldn't connect, try PostgresEventStream({conn: \"postgres://user:pass@example.com:5432/dbname\"})" + " conn string: " + options.conn + "; " + e.message); 
     }
 
-    var Event = sequelize.define('event', {
-      firstName: {
+    Event = sequelize.define('event', {
+      type: {
         type: Sequelize.STRING,
-        field: 'first_name' // Will result in an attribute that is firstName when user facing but first_name in the database
+        field: 'Type'
       },
-        lastName: {
-          type: Sequelize.STRING
-        }
-    }, {
-      freezeTableName: true // Model tableName will be the same as the model name
+      result: {
+        type: Sequelize.STRING,
+        field: 'Result'
+      },
+      intipaddr: {
+        type: Sequelize.STRING,
+        field: 'IntIPAddr'
+      },
+      extipaddr: {
+        type: Sequelize.STRING,
+        field: 'ExtIPAddr'
+      },
+      appid: {
+        type: Sequelize.STRING,
+        field: 'AppID'
+      },
+      entity: {
+        type: Sequelize.STRING,
+        field: 'Entity'
+      },
+      action: {
+        type: Sequelize.STRING,
+        field: 'Action'
+      },
+      size: {
+        type: Sequelize.INTEGER,
+        field: 'Size'
+      },
+      descr: {
+        type: Sequelize.STRING,
+        field: 'Descr'
+      },
+      meta: {
+        type: Sequelize.STRING,
+        field: 'Meta'
+      }
     });
 
-    Event.sync().then(function () {
-      // Table created
-      return Event.create({
-        firstName: 'John',
-             lastName: 'Hancock'
-      });
-    });
+    Event.sync();
     this.client = null;
   }
 
   write(entry) {
-    var level, rec, msg;
-
     if (typeof(entry) === 'string') {
       entry = JSON.parse(entry);
     }
-
-
-
-
-
-    msg = {
-      '@timestamp': rec.time.toISOString(),
-      'message':    rec.msg,
-      'tags':       this.tags,
-      'source':     this.server + "/" + this.application,
-      'level':      rec.level
+    var record = {
+      type : entry.type,
+      result: entry.result,
+      intipaddr: entry.ipaddr,
+      extipaddr: extipaddr,
+      appid: entry.appid,
+      entity: entry.entity,
+      action: entry.action,  
+      size: entry.size,
+      descr: entry.descr,
+      meta: entry.meta
     };
-
-    if (typeof(this.type) === 'string') {
-      msg.type = this.type;
-    }
-
-    delete rec.time;
-    delete rec.msg;
-
-    // Remove internal bunyan fields that won't mean anything outside of
-    // a bunyan context.
-    delete rec.v;
-    delete rec.level;
-
-    rec.pid = this.pid;
-
-    this.send(JSON.stringify(extend({}, msg, rec), bunyan.safeCycles()));
-  };
-
-  LogstashStream.prototype.send = function logstashSend(message) {
-    var self = this;
-    var buf = new Buffer(message);
-
-    if (! self.client) {
-      self.client = dgram.createSocket('udp4');
-      self.client.on("error", function (err) {
-        var currentTimestamp = new Date().getTime()
-        if (!lastErrorTimestamp || currentTimestamp - lastErrorTimestamp > 10000) {
-          lastErrorTimestamp = currentTimestamp;
-          console.log("bunyan-logstash socket connection error: " + err);
-        }
-      });
-    }
-
-    self.client.send(buf, 0, buf.length, self.port, self.host);
+    Event.create(record);
   }
 
   function createPostgresStream(options) {
