@@ -19,7 +19,10 @@
   "homepage": "https://github.com/musepm/usage",
   "dependencies": {
     "babel": "^5.5.8",
-    "kue": "^0.9.3"
+    "babel-runtime": "^5.5.8",
+    "bunyan": "^1.4.0",
+    "kue": "^0.9.3",
+    "sequelize": "^3.2.0"
   },
   "devDependencies": {
     "babel": "^5.5.8"
