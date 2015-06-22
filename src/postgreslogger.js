@@ -13,7 +13,7 @@ class PostgresEventStream {
       throw new Error("Couldn't connect, try PostgresEventStream({conn: \"postgres://user:pass@example.com:5432/dbname\"})" + " conn string: " + options.conn + "; " + e.message); 
     }
 
-    Event = sequelize.define('event', {
+    Event = this.sequelize.define('event', {
       type: {
         type: Sequelize.STRING,
         field: 'Type'
@@ -68,7 +68,7 @@ class PostgresEventStream {
       type : entry.type,
       result: entry.result,
       intipaddr: entry.ipaddr,
-      extipaddr: extipaddr,
+      extipaddr: entry.extipaddr,
       appid: entry.appid,
       entity: entry.entity,
       action: entry.action,  

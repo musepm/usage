@@ -6,6 +6,7 @@ class EventLog {
     var stream = postgresBunyan.createStream({conn}); 
 
     this.log = bunyan.createLogger( {
+      name: "events",
       streams: [ {type: "raw", stream: stream } ]
     });
   }
