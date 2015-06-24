@@ -1,17 +1,16 @@
-
 var Queue = require('./queue'),
-    EventLog = require('./eventlog');
+    cn = require('../default.conf.json').dbconn,
+    eventLog = require('./eventlog').createLog(cn);
    
 var queue, data;
 
-init = () => {
+var init = () => {
   queue = new Queue('events');
-  data = new EventLog();
 }
 
-next = () => {
+var next = () => {
   queue.process( async (data, done) => {
-    await data.addEvent(data);
+    await eventLog.addEvent(data);
     done();
   });
 }

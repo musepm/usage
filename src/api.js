@@ -1,22 +1,21 @@
 var express = require('express'),
-    bodyParser = require('body-parser'),
-    eventLog = require('./eventlog'),
+    bodyParser = require('body-parser'),   
     app = express(),
-    cn = require('./default.conf.json').dbconn,
-    eventLog = require('./eventlog').createLog(cn);
+    Queue = require('./queue'),
+    eventsQueue = new Queue('events');
 
 app.use(bodyParser.json());
 
-app.post('/events', (req, res) => {
+app.post('/events', async (req, res) => {
   try {
-    eventLog.addEvent(req.body);
-    res.json({status:'ok'});
+    var jobid = await eventsQueue.add(req.body);
+    res.json({status:'ok', jobid});
   } catch (e) {
     res.json({status:'error', error: e.message});
   }
 });
 
-var server = app.listen(3000, => {
+var server = app.listen(3000, () => {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port); });

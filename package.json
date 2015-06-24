@@ -4,6 +4,7 @@
   "description": "REST server to log API usage.  Supports HTTP (and HTTP2 at some point.)  musepm clients call this.",
   "main": "queue.js",
   "scripts": {
+    "start": "./start.sh",
     "build": "babel --optional runtime --stage 1 -d lib src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/musepm/usage.git"
   },
-  "author": "",
+  "author": "Jason Livesay",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/musepm/usage/issues"
@@ -20,7 +21,9 @@
   "dependencies": {
     "babel": "^5.5.8",
     "babel-runtime": "^5.5.8",
+    "body-parser": "^1.13.1",
     "bunyan": "^1.4.0",
+    "express": "^4.13.0",
     "kue": "^0.9.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.2.0"
