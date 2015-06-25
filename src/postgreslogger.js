@@ -2,6 +2,7 @@ var bunyan = require('bunyan'),
     Sequelize = require('sequelize'),
     Event = null;
 
+require('better-log').install();
  
 class PostgresEventStream {
   constructor(options) {
@@ -64,6 +65,8 @@ class PostgresEventStream {
     if (typeof(entry) === 'string') {
       entry = JSON.parse(entry);
     }
+    console.log('logger');
+    console.log(entry);
     var record = {
       type : entry.type,
       result: entry.result,
