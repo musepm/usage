@@ -31,6 +31,10 @@ class PostgresEventStream {
         type: Sequelize.STRING,
         field: 'ExtIPAddr'
       },
+      accountid: {
+        type: Sequelize.STRING,
+        field: 'AccountID'
+      },
       appid: {
         type: Sequelize.STRING,
         field: 'AppID'
@@ -72,6 +76,7 @@ class PostgresEventStream {
       result: entry.result,
       intipaddr: entry.ipaddr,
       extipaddr: entry.extipaddr,
+      accountid: entry.accountid,
       appid: entry.appid,
       entity: entry.entity,
       action: entry.action,  
